@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global neon theme styling */
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background-color: #000;
+  color: #e5e5e5;
+}
+
+/* Neon text glow utility */
+.neon-text-cyan {
+  color: #00f0ff;
+  text-shadow: 0 0 5px #00f0ff, 0 0 10px #00f0ff;
+}
+.neon-text-pink {
+  color: #ff00d4;
+  text-shadow: 0 0 5px #ff00d4, 0 0 10px #ff00d4;
+}
+.neon-text-purple {
+  color: #b400ff;
+  text-shadow: 0 0 5px #b400ff, 0 0 10px #b400ff;
+}
+
+/* Light mode overrides (when .light class added to html) */
+html.light body {
+  background-color: #f5f5f5;
+  color: #111;
+}
