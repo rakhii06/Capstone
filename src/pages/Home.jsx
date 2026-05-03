@@ -66,11 +66,15 @@ function Home() {
 
   return (
     <div className="px-6 py-8 max-w-7xl mx-auto">
-      <h1 className="text-4xl font-bold neon-text-purple mb-6 text-center">
-        Tech Gadget Store
-      </h1>
+     <h1 className="text-4xl font-bold neon-text-purple mb-2 text-center">
+  NexNeo – Smart Tech Shopping
+</h1>
 
-      {/* Controls: search + filter + sort */}
+<p className="text-center text-zinc-400 mb-6">
+  Compare, explore and buy the latest gadgets with confidence
+</p>
+
+     
       <div className="flex flex-col md:flex-row md:justify-between gap-4 mb-8">
         <SearchBar onSearch={handleSearch} />
         <FilterSort
@@ -86,7 +90,9 @@ function Home() {
 
       {/* Product grid */}
       {paginated.length === 0 ? (
-        <p className="text-center text-zinc-400 mt-10">No products found.</p>
+       <p className="text-center text-zinc-400 mt-10">
+   No Gadgets found ! ❌ Try a different search or category.
+</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {paginated.map((p) => (

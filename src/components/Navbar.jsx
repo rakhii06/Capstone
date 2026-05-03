@@ -13,8 +13,10 @@ function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 bg-black/80 backdrop-blur border-b border-neon-cyan/30 px-6 py-4 flex justify-between items-center">
+      
+  
       <Link to="/" className="text-2xl font-bold neon-text-cyan">
-       Gadgets Hub
+        NexNeo
       </Link>
 
       <div className="flex items-center gap-6">
@@ -22,7 +24,6 @@ function Navbar() {
           Home
         </Link>
 
-        {/* Wishlist link with count badge */}
         <Link
           to="/wishlist"
           className="relative hover:neon-text-pink transition-all duration-300"
@@ -35,7 +36,6 @@ function Navbar() {
           )}
         </Link>
 
-        {/* Compare link with count badge */}
         <Link
           to="/compare"
           className="relative hover:neon-text-pink transition-all duration-300"

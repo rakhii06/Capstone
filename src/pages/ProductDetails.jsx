@@ -4,18 +4,21 @@ import { fetchProductById } from '../services/api.js'
 import { useCart } from '../context/CartContext.jsx'
 import { useWishlist } from '../context/WishlistContext.jsx'
 import { useRecentlyViewed } from '../context/RecentlyViewedContext.jsx'
+import { useCompare } from '../context/CompareContext.jsx'
+import { useToast } from '../context/ToastContext.jsx'   // ✅ NEW
+
 import SmartSuggestions from '../components/SmartSuggestions.jsx'
 import TechScore from '../components/TechScore.jsx'
-import { useCompare } from '../context/CompareContext.jsx'
-
 
 function ProductDetails() {
   const { id } = useParams()
   const navigate = useNavigate()
+
   const { addToCart } = useCart()
   const { toggleWishlist, isWishlisted } = useWishlist()
   const { toggleCompare, isCompared } = useCompare()
   const { addRecent } = useRecentlyViewed()
+  const { showToast } = useToast()   // ✅ NEW
 
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -26,28 +29,23 @@ function ProductDetails() {
     fetchProductById(id)
       .then((data) => {
         setProduct(data)
-       
-        addRecent({
-          id: data.id,
-          title: data.title,
-          price: data.price,
-          thumbnail: data.thumbnail,
-          category: data.category,
-          rating: data.rating,
-        })
+        addRecent(data)
       })
       .catch(() => setError('⚠️ Failed to load product details.'))
       .finally(() => setLoading(false))
-   
   }, [id])
 
   if (loading)
     return <p className="text-center mt-20 neon-text-cyan text-xl">Loading...</p>
-  if (error) return <p className="text-center mt-20 text-red-400">{error}</p>
+
+  if (error)
+    return <p className="text-center mt-20 text-red-400">{error}</p>
+
   if (!product) return null
 
   const handleAdd = () => {
     addToCart(product)
+    showToast('🛒 Added to cart')   // ✅ UPDATED
     navigate('/cart')
   }
 
@@ -60,55 +58,57 @@ function ProductDetails() {
         ← Back to products
       </Link>
 
-      <div className="grid md:grid-cols-2 gap-10 mt-6 bg-zinc-900 border border-neon-purple/30 rounded-xl p-6 shadow-neon-purple">
+      <div className="grid md:grid-cols-2 gap-10 mt-6 bg-zinc-900 border border-neon-purple/30 rounded-xl p-6">
         <img
           src={product.thumbnail}
           alt={product.title}
           className="w-full h-80 object-contain bg-black rounded-lg"
         />
+
         <div>
           <h1 className="text-3xl font-bold neon-text-pink">{product.title}</h1>
-          <p className="text-zinc-400 capitalize mt-1">
+
+          <p className="text-zinc-400 mt-1">
             Category: {product.category} | Brand: {product.brand}
           </p>
+
           <p className="text-yellow-400 mt-2">
             ⭐ {product.rating} | Stock: {product.stock}
           </p>
-          <p className="text-zinc-300 mt-4 leading-relaxed">
-            {product.description}
-          </p>
+
+          <p className="text-zinc-300 mt-4">{product.description}</p>
+
           <div className="flex items-center gap-4 mt-6">
             <p className="text-3xl neon-text-cyan font-bold">
               ${product.price}
             </p>
-            {/* Tech Score badge — quick value indicator */}
             <TechScore product={product} />
           </div>
 
           <div className="flex flex-wrap gap-3 mt-6">
             <button
               onClick={handleAdd}
-              className="px-6 py-3 rounded-full bg-neon-pink text-black font-bold hover:shadow-neon-pink transition-all duration-300"
+              className="px-6 py-3 rounded-full bg-neon-pink text-black font-bold"
             >
               🛒 Add to Cart
             </button>
+
             <button
-              onClick={() => toggleWishlist(product)}
-              className={`px-6 py-3 rounded-full font-bold transition-all duration-300 border ${
-                liked
-                  ? 'bg-neon-pink text-black shadow-neon-pink border-neon-pink'
-                  : 'border-neon-pink text-neon-pink hover:shadow-neon-pink'
-              }`}
+              onClick={() => {
+                toggleWishlist(product)
+                showToast('💖 Wishlist updated')   // ✅ UPDATED
+              }}
+              className="px-6 py-3 border border-neon-pink text-neon-pink rounded-full"
             >
               {liked ? '♥ In Wishlist' : '♡ Add to Wishlist'}
             </button>
+
             <button
-              onClick={() => toggleCompare(product)}
-              className={`px-6 py-3 rounded-full font-bold transition-all duration-300 border ${
-                inCompare
-                  ? 'bg-neon-cyan text-black shadow-neon-cyan border-neon-cyan'
-                  : 'border-neon-cyan text-neon-cyan hover:shadow-neon-cyan'
-              }`}
+              onClick={() => {
+                toggleCompare(product)
+                showToast('⚖ Compare updated')   // ✅ UPDATED
+              }}
+              className="px-6 py-3 border border-neon-cyan text-neon-cyan rounded-full"
             >
               {inCompare ? '⚖ In Compare' : '⚖ Add to Compare'}
             </button>
@@ -116,7 +116,6 @@ function ProductDetails() {
         </div>
       </div>
 
-      {/* Smart Suggestions — same-category recommended products */}
       <SmartSuggestions currentProduct={product} />
     </div>
   )

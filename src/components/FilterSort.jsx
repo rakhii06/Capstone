@@ -1,11 +1,9 @@
 import React from 'react'
 import { ALLOWED_CATEGORIES } from '../services/api.js'
 
-
 function FilterSort({ category, setCategory, sort, setSort }) {
   return (
     <div className="flex flex-wrap gap-3">
-      {/* Category filter */}
       <select
         value={category}
         onChange={(e) => setCategory(e.target.value)}
@@ -19,7 +17,6 @@ function FilterSort({ category, setCategory, sort, setSort }) {
         ))}
       </select>
 
-      {/* Price sort */}
       <select
         value={sort}
         onChange={(e) => setSort(e.target.value)}

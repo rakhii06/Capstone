@@ -1,25 +1,43 @@
 import axios from 'axios'
+import { LOCAL_PRODUCTS } from '../data/LocalProduct.js'
 
-// Axios instance for dummyjson API
 const api = axios.create({
   baseURL: 'https://dummyjson.com',
   timeout: 10000,
 })
 
-// Allowed categories — ONLY tech gadgets
-export const ALLOWED_CATEGORIES = ['smartphones', 'laptops', 'tablets']
+// ✅ Exact strings from API
+export const ALLOWED_CATEGORIES = [
+  'smartphones',
+  'laptops',
+  'tablets',
+  'mobile-accessories',
+  'audio',
+  'cameras',
+  'gaming',
+  'accessories',
+]
 
-// Fetch all products, then filter to only tech gadget categories
 export const fetchTechProducts = async () => {
-  // dummyjson returns 30 products by default; we ask for more then filter
-  const { data } = await api.get('/products?limit=100')
-  return data.products.filter((p) =>
+  // ✅ limit=200 ensures smartphones & tablets are included
+  const { data } = await api.get('/products?limit=200')
+
+  const apiProducts = data.products.filter((p) =>
     ALLOWED_CATEGORIES.includes(p.category)
   )
+
+  return [...apiProducts, ...LOCAL_PRODUCTS]
 }
 
-// Fetch a single product by id
 export const fetchProductById = async (id) => {
+  const numId = Number(id)
+
+  if (numId >= 10001) {
+    const local = LOCAL_PRODUCTS.find((p) => p.id === numId)
+    if (local) return local
+    throw new Error('Local product not found')
+  }
+
   const { data } = await api.get(`/products/${id}`)
   return data
 }
