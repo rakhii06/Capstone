@@ -1,4 +1,4 @@
-import{d,e as o,j as e,L as x}from"./index-BpsaMkDd.js";function h(){const{cart:a,removeFromCart:r,updateQuantity:s,totalPrice:c,totalItems:l}=d(),{showToast:n}=o();return a.length===0?e.jsxs("div",{className:`
+import{d,e as o,j as e,L as x}from"./index-uKIx2_vu.js";function h(){const{cart:a,removeFromCart:r,updateQuantity:s,totalPrice:c,totalItems:l}=d(),{showToast:n}=o();return a.length===0?e.jsxs("div",{className:`
         min-h-screen flex flex-col items-center justify-center text-center
         bg-white text-black dark:bg-black dark:text-white
       `,children:[e.jsx("h2",{className:"text-2xl neon-text-purple",children:"🛒 Your cart is empty"}),e.jsx(x,{to:"/",className:"inline-block mt-6 px-6 py-2 rounded-full border border-neon-cyan text-neon-cyan",children:"Shop Now"})]}):e.jsxs("div",{className:`

@@ -1,4 +1,4 @@
-import{u as r,d as l,j as e,L as s}from"./index-BpsaMkDd.js";function c(){const{wishlist:t,removeFromWishlist:a}=r(),{addToCart:i}=l();return t.length===0?e.jsxs("div",{className:`min-h-screen flex flex-col items-center justify-center text-center 
+import{u as r,d as l,j as e,L as s}from"./index-uKIx2_vu.js";function c(){const{wishlist:t,removeFromWishlist:a}=r(),{addToCart:i}=l();return t.length===0?e.jsxs("div",{className:`min-h-screen flex flex-col items-center justify-center text-center 
       bg-white text-black dark:bg-black dark:text-white`,children:[e.jsx("h1",{className:"text-3xl neon-text-pink font-bold mb-4",children:"💖 Your Wishlist is Empty"}),e.jsx(s,{to:"/",className:"neon-text-cyan hover:underline",children:"← Browse gadgets"})]}):e.jsxs("div",{className:`
       min-h-screen 
       bg-white text-black 
