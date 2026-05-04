@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 
-
 const ThemeContext = createContext()
 
 export const useTheme = () => useContext(ThemeContext)
@@ -8,13 +7,13 @@ export const useTheme = () => useContext(ThemeContext)
 export const ThemeProvider = ({ children }) => {
   const [dark, setDark] = useState(true)
 
-
   useEffect(() => {
     const root = document.documentElement
+
     if (dark) {
-      root.classList.remove('light')
+      root.classList.add('dark')
     } else {
-      root.classList.add('light')
+      root.classList.remove('dark')
     }
   }, [dark])
 

@@ -1,122 +1,155 @@
 import React, { useEffect, useState } from 'react'
-import { useParams, Link, useNavigate } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { fetchProductById } from '../services/api.js'
 import { useCart } from '../context/CartContext.jsx'
 import { useWishlist } from '../context/WishlistContext.jsx'
-import { useRecentlyViewed } from '../context/RecentlyViewedContext.jsx'
 import { useCompare } from '../context/CompareContext.jsx'
-import { useToast } from '../context/ToastContext.jsx'   // ✅ NEW
-
-import SmartSuggestions from '../components/SmartSuggestions.jsx'
-import TechScore from '../components/TechScore.jsx'
+import { useToast } from '../context/ToastContext.jsx'
 
 function ProductDetails() {
   const { id } = useParams()
-  const navigate = useNavigate()
-
-  const { addToCart } = useCart()
-  const { toggleWishlist, isWishlisted } = useWishlist()
-  const { toggleCompare, isCompared } = useCompare()
-  const { addRecent } = useRecentlyViewed()
-  const { showToast } = useToast()   // ✅ NEW
 
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
+  const { addToCart } = useCart()
+  const { toggleWishlist, isWishlisted } = useWishlist()
+  const { toggleCompare, isCompared } = useCompare()
+  const { showToast } = useToast()
+
   useEffect(() => {
-    setLoading(true)
     fetchProductById(id)
-      .then((data) => {
-        setProduct(data)
-        addRecent(data)
-      })
-      .catch(() => setError('⚠️ Failed to load product details.'))
+      .then((data) => setProduct(data))
+      .catch(() => setError('Failed to load product'))
       .finally(() => setLoading(false))
   }, [id])
 
   if (loading)
-    return <p className="text-center mt-20 neon-text-cyan text-xl">Loading...</p>
+    return (
+      <p className="text-center mt-20 neon-text-cyan text-xl">
+        Loading product...
+      </p>
+    )
 
   if (error)
-    return <p className="text-center mt-20 text-red-400">{error}</p>
-
-  if (!product) return null
-
-  const handleAdd = () => {
-    addToCart(product)
-    showToast('🛒 Added to cart')   // ✅ UPDATED
-    navigate('/cart')
-  }
+    return (
+      <p className="text-center mt-20 text-red-500 text-lg">
+        {error}
+      </p>
+    )
 
   const liked = isWishlisted(product.id)
   const inCompare = isCompared(product.id)
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-10">
-      <Link to="/" className="neon-text-cyan hover:underline">
-        ← Back to products
+    <div className="
+      min-h-screen 
+      bg-white text-black 
+      dark:bg-black dark:text-white 
+      px-6 py-10 transition-colors duration-300
+    ">
+      
+     
+      <Link
+        to="/"
+        className="inline-block mb-6 text-neon-cyan hover:underline"
+      >
+        ← Back to Home
       </Link>
 
-      <div className="grid md:grid-cols-2 gap-10 mt-6 bg-zinc-900 border border-neon-purple/30 rounded-xl p-6">
-        <img
-          src={product.thumbnail}
-          alt={product.title}
-          className="w-full h-80 object-contain bg-black rounded-lg"
-        />
+      <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10">
+        
+        <div className="bg-gray-100 dark:bg-zinc-900 rounded-xl p-6 flex items-center justify-center">
+          <img
+            src={product.thumbnail}
+            alt={product.title}
+            className="max-h-80 object-contain"
+          />
+        </div>
 
         <div>
-          <h1 className="text-3xl font-bold neon-text-pink">{product.title}</h1>
+          <h1 className="text-3xl font-bold mb-2">
+            {product.title}
+          </h1>
 
-          <p className="text-zinc-400 mt-1">
-            Category: {product.category} | Brand: {product.brand}
+          <p className="text-gray-600 dark:text-zinc-400 mb-4 capitalize">
+            {product.category}
           </p>
 
-          <p className="text-yellow-400 mt-2">
-            ⭐ {product.rating} | Stock: {product.stock}
+          <p className="text-lg mb-4 text-gray-700 dark:text-zinc-300">
+            {product.description}
           </p>
 
-          <p className="text-zinc-300 mt-4">{product.description}</p>
+          <p className="text-2xl font-bold text-neon-pink mb-4">
+            ${product.price}
+          </p>
 
-          <div className="flex items-center gap-4 mt-6">
-            <p className="text-3xl neon-text-cyan font-bold">
-              ${product.price}
-            </p>
-            <TechScore product={product} />
-          </div>
+          <p className="text-sm text-green-500 dark:text-green-400 mb-4">
+            {product.stock > 0 ? 'In Stock' : 'Out of Stock'}
+          </p>
 
-          <div className="flex flex-wrap gap-3 mt-6">
+        
+          <div className="flex flex-wrap gap-4 mt-6">
+
+        
             <button
-              onClick={handleAdd}
-              className="px-6 py-3 rounded-full bg-neon-pink text-black font-bold"
+              onClick={() => {
+                addToCart(product)
+                showToast('🛒 Added to Cart!')
+              }}
+              className="
+                px-6 py-2 rounded-lg 
+                bg-white text-black 
+                dark:bg-zinc-900 dark:text-white 
+                border border-gray-300 dark:border-neon-cyan/30 
+                hover:shadow-neon-cyan transition
+              "
             >
-              🛒 Add to Cart
+              Add to Cart
             </button>
 
+          
             <button
               onClick={() => {
                 toggleWishlist(product)
-                showToast('💖 Wishlist updated')   // ✅ UPDATED
+                showToast(
+                  liked
+                    ? '❌ Removed from Wishlist'
+                    : '❤️ Added to Wishlist'
+                )
               }}
-              className="px-6 py-3 border border-neon-pink text-neon-pink rounded-full"
+              className={`px-6 py-2 rounded-lg border transition ${
+                liked
+                  ? 'bg-neon-pink text-black'
+                  : 'bg-white text-black dark:bg-zinc-900 dark:text-white border-gray-300 dark:border-neon-pink/30'
+              }`}
             >
-              {liked ? '♥ In Wishlist' : '♡ Add to Wishlist'}
+              {liked ? '♥ Wishlisted' : '♡ Add to Wishlist'}
             </button>
 
+    
             <button
               onClick={() => {
                 toggleCompare(product)
-                showToast('⚖ Compare updated')   // ✅ UPDATED
+                showToast(
+                  inCompare
+                    ? '❌ Removed from Compare'
+                    : '⚖️ Added to Compare'
+                )
               }}
-              className="px-6 py-3 border border-neon-cyan text-neon-cyan rounded-full"
+              className={`px-6 py-2 rounded-lg border transition ${
+                inCompare
+                  ? 'bg-neon-cyan text-black'
+                  : 'bg-white text-black dark:bg-zinc-900 dark:text-white border-gray-300 dark:border-neon-cyan/30'
+              }`}
             >
-              {inCompare ? '⚖ In Compare' : '⚖ Add to Compare'}
+              {inCompare ? '⚖ Compared' : '⚖ Add to Compare'}
             </button>
+
           </div>
         </div>
       </div>
-
-      <SmartSuggestions currentProduct={product} />
     </div>
   )
 }

@@ -12,14 +12,24 @@ function Navbar() {
   const { compare } = useCompare()
 
   return (
-    <nav className="sticky top-0 z-50 bg-black/80 backdrop-blur border-b border-neon-cyan/30 px-6 py-4 flex justify-between items-center">
+    <nav
+      className="
+      sticky top-0 z-50 
+      bg-white/80 text-black 
+      dark:bg-black/80 dark:text-white 
+      backdrop-blur 
+      border-b border-gray-300 dark:border-neon-cyan/30 
+      px-6 py-4 flex justify-between items-center
+      transition-all duration-300
+      "
+    >
       
-  
       <Link to="/" className="text-2xl font-bold neon-text-cyan">
         NexNeo
       </Link>
 
       <div className="flex items-center gap-6">
+        
         <Link to="/" className="hover:neon-text-pink transition-all duration-300">
           Home
         </Link>
@@ -62,10 +72,17 @@ function Navbar() {
 
         <button
           onClick={toggleTheme}
-          className="px-3 py-1 rounded-full border border-neon-purple text-neon-purple hover:shadow-neon-purple transition-all duration-300"
+          className="
+            px-3 py-1 rounded-full 
+            border border-neon-purple 
+            text-neon-purple 
+            hover:shadow-neon-purple 
+            transition-all duration-300
+          "
         >
           {dark ? '🌙 Dark' : '☀️ Light'}
         </button>
+
       </div>
     </nav>
   )

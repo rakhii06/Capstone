@@ -8,7 +8,7 @@ import { ThemeProvider } from './context/ThemeContext.jsx'
 import { WishlistProvider } from './context/WishlistContext.jsx'
 import { RecentlyViewedProvider } from './context/RecentlyViewedContext.jsx'
 import { CompareProvider } from './context/CompareContext.jsx'
-import { ToastProvider } from './context/ToastContext.jsx'   // ✅ NEW
+import { ToastProvider } from './context/ToastContext.jsx'  
 
 import './index.css'
 
@@ -20,7 +20,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <WishlistProvider>
             <RecentlyViewedProvider>
               <CompareProvider>
-                <ToastProvider>   {/* ✅ NEW */}
+                <ToastProvider>   
                   <App />
                 </ToastProvider>
               </CompareProvider>

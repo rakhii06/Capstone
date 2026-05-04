@@ -16,7 +16,7 @@ function SmartSuggestions({ currentProduct }) {
             p.category === currentProduct.category && p.id !== currentProduct.id
         )
         .sort((a, b) => (b.rating || 0) - (a.rating || 0))
-        .slice(0, 3) // top 3 suggestions
+        .slice(0, 3) 
       setSuggestions(related)
     })
   }, [currentProduct])

@@ -88,7 +88,7 @@ function Home() {
         />
       </div>
 
-      {/* Product grid */}
+     
       {paginated.length === 0 ? (
        <p className="text-center text-zinc-400 mt-10">
    No Gadgets found ! ❌ Try a different search or category.
@@ -101,17 +101,17 @@ function Home() {
         </div>
       )}
 
-      {/* Pagination buttons */}
+    
       {totalPages > 1 && (
         <div className="flex justify-center items-center gap-3 mt-10">
           <button
             disabled={page === 1}
             onClick={() => setPage((p) => p - 1)}
-            className="px-4 py-2 rounded border border-neon-cyan text-neon-cyan disabled:opacity-30 hover:shadow-neon-cyan transition"
+            className="px-4 py-2 rounded border border-neon-cyan text-neon-black disabled:opacity-30 hover:shadow-neon-cyan transition"
           >
             Prev
           </button>
-          <span className="text-white">
+          <span className="text-zinc">
             Page {page} of {totalPages}
           </span>
           <button
@@ -124,7 +124,6 @@ function Home() {
         </div>
       )}
 
-      {/* Recently Viewed strip — appears once user opens any product */}
       <RecentlyViewed />
     </div>
   )

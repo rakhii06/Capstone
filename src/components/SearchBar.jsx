@@ -1,37 +1,29 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 function SearchBar({ onSearch }) {
-  const [text, setText] = useState('')
-  const [typing, setTyping] = useState(false)
+  const [query, setQuery] = useState('')
 
-  useEffect(() => {
-    setTyping(true)
-
-    const timer = setTimeout(() => {
-      onSearch(text)
-      setTyping(false)
-    }, 400)
-
-    return () => clearTimeout(timer)
-  }, [text, onSearch])
+  const handleChange = (e) => {
+    const value = e.target.value
+    setQuery(value)
+    onSearch(value)
+  }
 
   return (
-    <div className="w-full md:w-72">
-      <input
-        type="text"
-        placeholder="🔍 Search gadgets..."
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        className="w-full px-4 py-2 rounded-full bg-black border border-neon-cyan/40 text-white focus:outline-none focus:shadow-neon-cyan transition-all"
-      />
-
-      {/* 🔵 Searching indicator */}
-      {typing && (
-        <p className="text-xs text-zinc-400 mt-1 ml-2">
-          Searching...
-        </p>
-      )}
-    </div>
+    <input
+      type="text"
+      value={query}
+      onChange={handleChange}
+      placeholder="Search gadgets..."
+      className="
+        w-full md:w-80 px-4 py-2 rounded-lg 
+        bg-white text-black 
+        dark:bg-zinc-900 dark:text-white 
+        border border-gray-300 dark:border-neon-cyan/30
+        focus:outline-none focus:ring-2 focus:ring-neon-cyan
+        transition-all duration-300
+      "
+    />
   )
 }
 

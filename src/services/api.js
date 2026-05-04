@@ -6,7 +6,7 @@ const api = axios.create({
   timeout: 10000,
 })
 
-// ✅ Exact strings from API
+
 export const ALLOWED_CATEGORIES = [
   'smartphones',
   'laptops',
@@ -19,7 +19,7 @@ export const ALLOWED_CATEGORIES = [
 ]
 
 export const fetchTechProducts = async () => {
-  // ✅ limit=200 ensures smartphones & tablets are included
+
   const { data } = await api.get('/products?limit=200')
 
   const apiProducts = data.products.filter((p) =>
